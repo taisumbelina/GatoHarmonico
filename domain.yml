@@ -1,0 +1,252 @@
+version: "3.1"
+
+intents:
+  - saudacao
+  - despedida
+  - agradecimento
+  - afirmacao
+  - negacao
+  - restart
+  - nlu_fallback
+  - agendamento_aula
+  - ask_preco_aula
+  - agendamento_consultoria
+  - ask_preco_consultoria
+  - compra_instrumento
+  - listagem_instrumentos
+  - materiais
+  - fornecer_dados_pessoais
+  - agendamento_hora
+  - agendamento_dia # PADRONIZADO PARA AGENDAMENTO_DIA
+  - fornecer_hora_agendamento # Apenas a hora do agendamento do serviço
+  - agendamento_modo
+  - pagamento
+  - EXTERNAL_inactivity_reminder
+
+entities:
+  - instrumentos
+  - modo_agendamento
+  - nome
+  - cpf
+  - rg
+  - date
+  - time
+  - forma_pagamento
+  - area_consultoria
+
+slots:
+  instrumentos:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: instrumentos
+  modo_agendamento:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: modo_agendamento
+  nome:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: nome
+        intent: fornecer_dados_pessoais
+  cpf:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: cpf
+        intent: fornecer_dados_pessoais
+        conditions:
+          - active_loop: personal_data_form
+            requested_slot: cpf
+  rg:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: rg
+        intent: fornecer_dados_pessoais
+        conditions:
+          - active_loop: personal_data_form
+            requested_slot: rg
+  rg_display: # NOVO SLOT PARA EXIBIÇÃO
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: custom
+  data_nascimento:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: date
+        intent: fornecer_dados_pessoais
+        conditions:
+          - active_loop: personal_data_form
+            requested_slot: data_nascimento
+      - type: from_entity
+        entity: time
+        intent: fornecer_dados_pessoais
+        conditions:
+          - active_loop: personal_data_form
+            requested_slot: data_nascimento
+  data_agendamento:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: date
+        intent: agendamento_dia # PADRONIZADO PARA AGENDAMENTO_DIA
+      - type: from_entity
+        entity: time
+        intent: agendamento_dia # PADRONIZADO PARA AGENDAMENTO_DIA
+      - type: from_entity
+        entity: date
+        intent: agendamento_hora
+      - type: from_entity
+        entity: time
+        intent: agendamento_hora
+  hora_agendamento:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: time
+        intent: fornecer_hora_agendamento
+      - type: from_entity
+        entity: time
+        intent: agendamento_hora
+  forma_pagamento:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: forma_pagamento
+        intent: pagamento
+  servico_escolhido:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: custom
+  preco_servico:
+    type: float
+    influence_conversation: true
+    mappings:
+      - type: custom
+  dados_pessoais_confirmados_pendente:
+    type: bool
+    influence_conversation: true
+    mappings:
+      - type: custom
+
+forms:
+  personal_data_form:
+    required_slots:
+      - nome
+      - cpf
+      - rg
+      - data_nascimento
+
+responses:
+  utter_saudacao:
+  - text: "Miau! 😺 Tudo certo por aqui! Eu sou o Freddie Meowcury, seu atendente felino da Gato Harmônico🎶✨ Na nossa toca vendemos instrumentos, fornecemos aulas e consultorias, e temos materiais incríveis.\n\nQual serviço o trouxe até nossa toca? 🎶"
+  utter_ask_instrumento_aula:
+  - text: "Qual instrumento você gostaria de aprender?"
+  utter_agendamento_consultoria:
+  - text: "🎶\nA consultoria musical é tipo um bate-papo cheio de harmonia, onde a gente entende seus objetivos, seu nível atual e traça um caminho musical que seja a sua cara! 🐾✨\n🎯 O investimento é de R$ 120,00 por sessão, com duração de aproximadamente 1h.\n\nVamos agendar? Você prefere que a consultoria seja online ou presencial?"
+  utter_compra_instrumento:
+  - text: "🎶 Aqui na GatoHarmônico temos uma seleção de instrumentos que fazem qualquer coração ronronar de emoção!\nViolões, ukuleles, teclados, percussões… tudo afinadinho, prontinho pra você tocar suas emoções 💛\nVocê já tem um instrumento em mente ou quer minha ajudinha felina para informar todos disponiveis?"
+  utter_compra_instrumento_especifico:
+  - text: "Ah, um {instrumentos}! Ótima escolha! Temos alguns modelos de {instrumentos} disponíveis. Você gostaria de ver as opções ou saber mais detalhes sobre eles?"
+  utter_materiais:
+  - text: "Miiiiaaaau temos sim! E tem conteúdo tão bom que até os gatos do bairro andam cantando afinadinho! 🎤🐱✨\n Na Gato Harmônico, você pode acessar nossos vídeos, e-books, tutoriais e exercícios musicais através de dois planos:\n\n🎧 Plano Gratuito\n Acesso a uma seleção de conteúdos educativos\n Com anúncios entre as aulas\n Ideal pra quem tá começando ou quer experimentar sem compromisso\n 💰 R$ 0,00(gratuito mesmo!)\n\n🎵 Plano Premium\n Acesso completo a todos os conteúdos (inclusive os exclusivos!\n Zero anúncios! Só música e aprendizado 🎶\n Materiais bônus todo mês (tipo playbacks, partituras, desafios interativos)\n Acesso a um grupo VIP de alunos e dicas direto dos nossos professores\n 💳 R$ 29,90 por mês ou R$ 149,00 no plano semestral (com mimo surpresa no envio! 🎁)\n\nPara conhecer é só acessar nosso link: [LINK SITE]"
+  utter_despedida:
+  - text: "Eu agradeço pela sua visita, miauzinho! 😸\n Fico por aqui, afinando meu miado e esperando você voltar quando quiser.\n Que sua semana seja cheia de harmonia, sorrisos e notas felizes! 🎼💛\n Até a próxima, com um miado carinhoso e um tchau de patinha! 👋🐾"
+  - text: "Miau… Parece que você foi embora antes de dar tchauzinho! 😸\n Se precisar de algo, estou sempre aqui, pronto para dar aquele miado de ajuda.\n Fica à vontade para voltar quando quiser! Que seu dia seja cheio de melodias felizes e muita inspiração! 🎼💛\n Até a próxima, com um miado de carinho e uma patinha acenando! 👋🐾"
+  utter_ask_modo_agendamento:
+  - text: "Certo! Você prefere que a aula/consultoria seja online ou presencial?"
+  utter_ask_dados_pessoais:
+  - text: "Perfeito! Para agendar, preciso do seu nome completo, CPF, RG e data de nascimento (DD/MM/AAAA). Pode me passar, por favor?"
+  utter_ask_dia_agendamento:
+  - text: "Ótimo! Agora que temos seus dados, vamos prosseguir com o agendamento? Qual o melhor dia para você? (Ex: 10/07 ou próxima segunda)"
+  utter_ask_hora_agendamento:
+  - text: "Entendido! E qual seria o melhor horário nesse dia? (Ex: 14:30 ou 16h)"
+  # REMOVIDA AQUI: utter_confirma_agendamento_final
+  utter_pagamento:
+  - text: "Para finalizar, clique neste link e realize o pagamento: [LINK PAGAMENTO]"
+  utter_listagem_instrumentos:
+  - text: "Na Gato Harmonicos vendemos:\nINSTRUMENTOS DE CORDA: Guitarras, Violões, Contrabaixos, Ukuleles, Cavaquinhos, Violinos, Violas e Violoncelos.\nINSTRUMENTOS DE SOPRO: Flautas, Clarinetes, Saxofones, Trompetes, Trombones, Tubas e Gaitas de boca.\nINSTRUMENTOS DE TECLAS: Teclados, Sintetizadores, Pianos, Órgãos e Escaletas.\nINSTRUMENTOS DE PERCUSSÃO: Baterias, Pandeiros, Tamborins, Surdos, Timbas, Triângulos, Kalimbas e Boomwhackers.\nPara adquirir é só entrar neste link e fazer sua compra: [LINK SITE]"
+  utter_ask_rg:
+  - text: "Entendido. E qual o seu RG?"
+  utter_ask_cpf:
+  - text: "Ok. E o CPF? (XXX.XXX.XXX-XX ou apenas números)"
+  utter_ask_data_nascimento:
+  - text: "Certo. E a data de nascimento (DD/MM/AAAA)?"
+  utter_ask_nome:
+  - text: "Qual o seu nome completo?"
+  utter_default:
+  - text: "Miau... Desculpe, não entendi muito bem. Poderia repetir de outra forma? 🐾"
+  utter_inactivity_reminder:
+  - text: "Miau! 😸 Parece que você deu uma sumidinha. Ainda precisa da minha ajuda felina por aqui? 🐾"
+  utter_confirm_personal_data:
+  - text: "Confirmando seus dados: Nome: {nome}, CPF: {cpf}, RG: {rg_display}, Data de Nascimento: {data_nascimento}. Está tudo correto?"
+  utter_de_nada:
+  - text: "De nada! Sempre que precisar, é só miar! 😸"
+  - text: "Miaaau, por nada! Se precisar de mais alguma coisa, estou à disposição! 🐾"
+  utter_informar_preco_aula_especifica:
+  - text: "A aula de {instrumentos} custa R$ 90,00 por sessão individual, ou R$ 320,00 o pacote mensal com 4 aulas. Gostaria de agendar ou saber mais sobre os horários?"
+  utter_informar_preco_aula_geral:
+  - text: "Nossas aulas custam R$ 90,00 por sessão individual, ou R$ 320,00 o pacote mensal com 4 aulas. Para qual instrumento você gostaria de saber o preço e disponibilidade?"
+  utter_informar_preco_consultoria:
+  - text: "A consultoria musical tem o investimento de R$ 120,00 por sessão. Deseja agendar ou precisa de mais alguma informação?"
+
+actions:
+  - action_schedule_inactivity_reminder
+  - action_react_to_inactivity_reminder
+  - validate_personal_data_form
+  - action_extract_and_confirm_data
+  - action_deactivate_form
+  - action_forget_reminders
+  - action_start_aula_agendamento
+  - action_process_agendamento_date
+  - action_set_consultoria_details
+  - action_informar_preco_aula
+  - action_handle_compra_instrumento
+  - action_reset_personal_data_slots
+  - action_forget_reminders_and_ask_dia
+  - action_ask_dia_agendamento
+  - action_confirm_agendamento_final # ADICIONADA A NOVA AÇÃO
+  - utter_saudacao
+  - utter_ask_instrumento_aula
+  - utter_agendamento_consultoria
+  - utter_compra_instrumento
+  - utter_compra_instrumento_especifico
+  - utter_materiais
+  - utter_despedida
+  - utter_ask_modo_agendamento
+  - utter_ask_dados_pessoais
+  - utter_ask_dia_agendamento
+  - utter_ask_hora_agendamento
+  - utter_confirma_agendamento_final
+  - utter_pagamento
+  - utter_listagem_instrumentos
+  - utter_ask_rg
+  - utter_ask_cpf
+  - utter_ask_data_nascimento
+  - utter_ask_nome
+  - utter_default
+  - utter_inactivity_reminder
+  - utter_confirm_personal_data
+  - utter_de_nada
+  - utter_informar_preco_aula_especifica
+  - utter_informar_preco_aula_geral
+  - utter_informar_preco_consultoria
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true

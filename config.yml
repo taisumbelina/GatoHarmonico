@@ -1,0 +1,38 @@
+recipe: default.v1
+language: pt
+
+pipeline:
+- name: WhitespaceTokenizer
+- name: RegexFeaturizer
+- name: LexicalSyntacticFeaturizer
+- name: CountVectorsFeaturizer
+- name: CountVectorsFeaturizer
+  analyzer: char_wb
+  min_ngram: 1
+  max_ngram: 4
+- name: DIETClassifier
+  epochs: 100
+  constrain_similarities: True
+- name: EntitySynonymMapper
+- name: RegexEntityExtractor
+  use_regexes: true
+- name: DucklingEntityExtractor
+  url: http://localhost:8000
+  dimensions:
+    - time
+  locale: pt_BR
+  timezone: "America/Sao_Paulo"
+
+policies:
+- name: MemoizationPolicy
+  max_history: 5
+- name: RulePolicy
+  core_fallback_threshold: 0.3
+- name: TEDPolicy
+  max_history: 5
+  epochs: 100
+- name: UnexpecTEDIntentPolicy
+  max_history: 5
+  epochs: 100
+  threshold: -0.7
+assistant_id: 20250525-182123-concave-fuse
