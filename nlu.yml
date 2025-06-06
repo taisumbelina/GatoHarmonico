@@ -1,0 +1,463 @@
+version: "3.1"
+
+intents:
+  - saudacao
+  - despedida
+  - agradecimento
+  - afirmacao
+  - negacao
+  - restart
+  - nlu_fallback
+  - agendamento_aula
+  - ask_preco_aula
+  - agendamento_consultoria
+  - ask_preco_consultoria
+  - compra_instrumento
+  - listagem_instrumentos
+  - materiais
+  - fornecer_dados_pessoais
+  - agendamento_hora
+  - agendamento_dia
+  - fornecer_hora_agendamento
+  - agendamento_modo
+  - pagamento
+  - EXTERNAL_inactivity_reminder
+
+# --- Exemplos NLU --- 
+
+nlu:
+- intent: saudacao
+  examples: |
+    - oi
+    - olá
+    - bom dia
+    - boa tarde
+    - boa noite
+    - e aí
+    - opa
+    - como vai?
+    - tudo bem?
+    - salve
+    - olá, tudo bem?
+    - oi, como posso ajudar?
+
+- intent: despedida
+  examples: |
+    - tchau
+    - adeus
+    - até logo
+    - até mais
+    - falou
+    - flw
+    - obrigado, tchau
+    - valeu, tchau
+    - até a próxima
+    - vou indo
+    - deixa pra lá, tchau
+    - não quero mais, adeus
+
+- intent: agradecimento
+  examples: |
+    - obrigado
+    - obrigada
+    - valeu
+    - grato
+    - agradecido
+    - muito obrigado
+    - brigadão
+    - show de bola, valeu
+    - perfeito, obrigado
+    - agradeço a ajuda
+
+- intent: afirmacao
+  examples: |
+    - sim
+    - s
+    - claro
+    - com certeza
+    - isso
+    - correto
+    - exato
+    - pode ser
+    - beleza
+    - ok
+    - tá certo
+    - agora sim
+    - afirmativo
+    - positivo
+
+- intent: negacao
+  examples: |
+    - não
+    - n
+    - de jeito nenhum
+    - negativo
+    - incorreto
+    - errado
+    - não quero
+    - não, obrigado
+    - não, meu nome está errado
+    - não, o cpf está errado
+    - não, a data está errada
+
+- intent: restart
+  examples: |
+    - começar de novo
+    - reiniciar
+    - quero recomeçar
+    - voltar ao início
+    - menu principal
+    - esquece tudo, vamos de novo
+
+- intent: agendamento_aula
+  examples: |
+    - quero agendar uma aula
+    - gostaria de fazer aula
+    - como faço para ter aulas?
+    - quero aprender a tocar [violão](instrumentos)
+    - aulas de [guitarra](instrumentos)
+    - tem aula de [baixo](instrumentos)?
+    - queria aulas de [bateria](instrumentos)
+    - agendar aula de [canto](instrumentos)
+    - quero começar aula de [teclado](instrumentos)
+    - quero aula de [piano](instrumentos)
+    - tem vaga pra aula de [saxofone](instrumentos)?
+    - agendar aula de [flauta](instrumentos)
+    - aula de [violino](instrumentos)
+    - aula de [cavaquinho](instrumentos)
+    - quero aprender [ukulele](instrumentos)
+    - oii, tudo bem? queria aulas de [baixo](instrumentos)
+    - boa noite, gostaria de agendar aulas de [canto](instrumentos)
+    - quero fazer aula de [gaita](instrumentos)
+    - vocês dão aula de [pandeiro](instrumentos)?
+    - me interessei pelas aulas de [violoncelo](instrumentos)
+    - saber como agendar aulas
+    - quero marcar aula
+    - como funcionam os agendamentos das aulas?
+    - quero aula de musica
+
+- intent: ask_preco_aula
+  examples: |
+    - qual o valor da aula?
+    - quanto custa uma aula?
+    - preço das aulas
+    - qual o preço das aulas de [violão](instrumentos)?
+    - quanto custa a aula de [guitarra](instrumentos)?
+    - valor da aula de [baixo](instrumentos)
+    - preço da aula de [bateria](instrumentos)
+    - qual o valor para aulas de [canto](instrumentos)?
+    - quanto é a aula de [ukulele](instrumentos)?
+    - informações sobre o preço da aula de [piano](instrumentos)
+    - oii, qual o preço das aulas de [violão](instrumentos)?
+    - boa tarde, quanto custa aulas de [violão](instrumentos)?
+    - queria saber o preço das aulas
+    - qual o custo da aula?
+    - preço da aula de [teclado](instrumentos)?
+    - valor da aula de [saxofone](instrumentos)?
+    - quanto vale a aula?
+    - tabela de preços das aulas
+    - qual o valor das mensalidades?
+    - queria saber o custo da aula de [bateria](instrumentos)
+    - qual o preço do curso de [violão](instrumentos)?
+
+- intent: agendamento_consultoria
+  examples: |
+    - quero agendar uma consultoria
+    - gostaria de uma consultoria musical
+    - como funciona a consultoria?
+    - marcar consultoria
+    - informações sobre consultoria
+    - preciso de ajuda com minha carreira musical
+    - consultoria para músicos
+
+- intent: ask_preco_consultoria
+  examples: |
+    - quanto custa a consultoria?
+    - qual o valor da consultoria?
+    - preço da sessão de consultoria
+    - valor da consultoria musical
+
+- intent: compra_instrumento
+  examples: |
+    - quero comprar um [violão](instrumentos)
+    - vocês vendem [guitarra](instrumentos)?
+    - tem [baixo](instrumentos) pra vender?
+    - preço do [teclado](instrumentos)
+    - comprar [bateria](instrumentos)
+    - estou procurando um [ukulele](instrumentos)
+    - vende [cavaquinho](instrumentos)?
+    - quero comprar instrumento
+    - ver instrumentos à venda
+
+- intent: listagem_instrumentos
+  examples: |
+    - quais instrumentos vocês vendem?
+    - listar todos os instrumentos
+    - quais são as opções?
+    - me mostra o que tem
+    - lista de instrumentos
+    - quero ver todos
+
+- intent: materiais
+  examples: |
+    - quais materiais vocês oferecem?
+    - tem material de estudo?
+    - conteúdo online
+    - e-books de música
+    - vídeos de aula
+    - acesso aos materiais
+    - plano premium de materiais
+
+- intent: fornecer_dados_pessoais
+  examples: |
+    - meu nome é [João Silva](nome)
+    - nome: [Maria Oliveira](nome)
+    - me chamo [Carlos Pereira](nome)
+    - [Ana Costa](nome)
+    - [José Santos](nome)
+    - [Francisco Almeida](nome)
+    - [Antônio Rodrigues](nome)
+    - [Luiz Ferreira](nome)
+    - [Marcos Souza](nome)
+    - [Pedro Lima](nome)
+    - [Raimundo Carvalho](nome)
+    - [Sebastião Gomes](nome)
+    - [Geraldo Martins](nome)
+    - [Adriana Barbosa](nome)
+    - [Sandra Castro](nome)
+    - [Camila Ribeiro](nome)
+    - [Fernanda Duarte](nome)
+    - [Patrícia Dias](nome)
+    - [Amanda Nunes](nome)
+    - [Bruna Mendes](nome)
+    - [Jéssica Rocha](nome)
+    - [Letícia Pinto](nome)
+    - [Júlia Cardoso](nome)
+    - [Mariana Ramos](nome)
+    - [Beatriz Correia](nome)
+    - [Luana Teixeira](nome)
+    - [Alice Cunha](nome)
+    - [Laura Monteiro](nome)
+    - [Manuela Moreira](nome)
+    - [Valentina Fernandes](nome)
+    - [Sofia Azevedo](nome)
+    - [Isabella Freitas](nome)
+    - [Helena Lopes](nome)
+    - [Gabriela Pires](nome)
+    - [Yasmin Neves](nome)
+    - [Clara Cavalcanti](nome)
+    - [Elaine Melo](nome)
+    - [Vera Lúcia](nome)
+    - [Márcia Regina](nome)
+    - [Sônia Maria](nome)
+    - [Regina Célia](nome)
+    - [Fátima Aparecida](nome)
+    - [Cristina Helena](nome)
+    - [Daniela Cristina](nome)
+    - [Vanessa Carla](nome)
+    - [Tatiane Paula](nome)
+    - [Renata Beatriz](nome)
+    - [Simone Patrícia](nome)
+    - [Mônica Fernanda](nome)
+    - [Paula Roberta](nome)
+    - [André Luiz](nome)
+    - [Carlos Alberto](nome)
+    - [José Carlos](nome)
+    - [Paulo Sérgio](nome)
+    - [Luiz Carlos](nome)
+    - [Antônio Carlos](nome)
+    - [João Paulo](nome)
+    - [Pedro Henrique](nome)
+    - [Lucas Gabriel](nome)
+    - [Marcos Vinícius](nome)
+    - [Bruno Henrique](nome)
+    - [Felipe Augusto](nome)
+    - [Ricardo Alexandre](nome)
+    - [Marcelo Eduardo](nome)
+    - [Fábio Júnior](nome)
+    - [Leandro José](nome)
+    - [Thiago Rafael](nome)
+    - [Rafael Augusto](nome)
+    - [Eduardo Henrique](nome)
+    - [Rodrigo César](nome)
+    - [Gustavo Adolfo](nome)
+    - [Alexandre Magno](nome)
+    - [Fernando Henrique](nome)
+    - [Leonardo Silva](nome)
+    - [Vinícius Gabriel](nome)
+    - [Guilherme Tell](nome)
+    - [Daniel Boone Carvalho](nome)
+    - [Edson Arantes](nome)
+    - [Roberto Carlos](nome)
+    - [Maria da Graça](nome)
+    - [Ana Maria Umbelina](nome)
+    - [cpf [111.222.333-44](cpf)](cpf)
+    - meu cpf é [99988877766](cpf)
+    - CPF: [12345678900](cpf)
+    - [11122233344](cpf)
+    - [999.888.777-66](cpf)
+    - [123.123.123-12](cpf)
+    - [19896748446](cpf)
+    - rg [12.345.678-9](rg)
+    - RG [987654321](rg)
+    - meu rg é [11222333X](rg)
+    - [98.765.432-1](rg)
+    - [152569583](rg)
+    - [15.289.541-3](rg)
+    - nasci em [15/05/1998](date)
+    - data de nascimento [01/01/1990](date)
+    - nasc: [10/10/2000](date)
+    - [19/02/1998](date)
+    - [25/12/1982](date)
+    - [João Silva](nome), cpf [123.123.123-12](cpf), rg [98.765.432-1](rg), nasc [10/10/2000](date)
+    - [Maria Aparecida Souza](nome), cpf [999.888.777-66](cpf), rg [11.222.333-X](rg), nasc [01/01/1990](date)
+    - [Edson Melo](nome), cpf [19896748446](cpf), rg [152569583](rg), nasc [25/12/1982](date)
+    - nome [Carlos Maia](nome), cpf [111.222.333-44](cpf), rg [12.345.678-9](rg), data [15/05/1998](date)
+    - [19/12/1985](date)
+    - [15/09/2003](date)
+    - [Lorenzo Filipe Nascimento](nome)
+    - [27/04/1946](date)
+
+- intent: agendamento_dia
+  examples: |
+    - [amanhã](date)
+    - [hoje](date)
+    - [depois de amanhã](date)
+    - [próxima segunda](date)
+    - [segunda-feira que vem](date)
+    - [na terça](date)
+    - [próxima terça](date)
+    - [quarta](date)
+    - [quinta agora](date)
+    - [sexta](date)
+    - [sábado](date)
+    - [domingo](date)
+    - [dia 10](date)
+    - [dia 15 de julho](date)
+    - [no dia 20](date)
+    - [em 25/08](date)
+    - [para 01/09/2025](date)
+    - [10/07](date)
+    - [15/07/2025](date)
+    - pode ser [amanhã](date)
+    - gostaria [na quarta](date)
+    - que tal [sexta-feira](date)?
+    - tem vaga para [próxima semana](date)?
+    - [semana que vem](date)
+    - [daqui a duas semanas](date)
+    - [no final do mês](date)
+    - [início do mês que vem](date)
+
+- intent: agendamento_hora
+  examples: |
+    - [10h](time)
+    - [às 14:30](time)
+    - [16:00](time)
+    - [pelas 9 da manhã](time)
+    - [2 da tarde](time)
+    - [18h](time)
+    - [19:15](time)
+    - [8 horas](time)
+    - [11:30](time)
+    - [meio-dia](time)
+    - [13h](time)
+    - pode ser [às 15h](time)?
+    - [17:45](time)
+    - [20:00](time)
+    - [de manhã](time)
+    - [à tarde](time)
+    - [no final da tarde](time)
+    - [à noite](time)
+
+- intent: agendamento_modo
+  examples: |
+    - [online](modo_agendamento)
+    - [presencial](modo_agendamento)
+    - quero [online](modo_agendamento)
+    - prefiro [presencial](modo_agendamento)
+    - pode ser [online](modo_agendamento)
+    - [presencialmente](modo_agendamento)
+    - aula [online](modo_agendamento)
+    - modo [presencial](modo_agendamento)
+
+- intent: pagamento
+  examples: |
+    - vou pagar com [pix](forma_pagamento)
+    - quero pagar no [cartão](forma_pagamento)
+    - aceita [boleto](forma_pagamento)?
+    - pagamento em [dinheiro](forma_pagamento)
+    - como pago?
+    - forma de pagamento
+    - [pix](forma_pagamento)
+    - [cartão de crédito](forma_pagamento)
+    - [débito](forma_pagamento)
+    - [boleto](forma_pagamento)
+    - [dinheiro](forma_pagamento)
+
+- lookup: instrumentos
+  examples: |
+    - guitarra
+    - violão
+    - contrabaixo
+    - baixo
+    - ukulele
+    - cavaquinho
+    - violino
+    - viola
+    - violoncelo
+    - flauta
+    - clarinete
+    - saxofone
+    - trompete
+    - trombone
+    - tuba
+    - gaita
+    - teclado
+    - sintetizador
+    - piano
+    - órgão
+    - escaleta
+    - bateria
+    - pandeiro
+    - tamborim
+    - surdo
+    - timba
+    - triângulo
+    - kalimba
+    - boomwhacker
+    - canto
+
+- lookup: forma_pagamento
+  examples: |
+    - pix
+    - cartão
+    - cartão de crédito
+    - crédito
+    - débito
+    - cartão de débito
+    - boleto
+    - dinheiro
+    - espécie
+
+- lookup: modo_agendamento
+  examples: |
+    - online
+    - presencial
+    - presencialmente
+    - a distância
+    - remoto
+    - na escola
+    - aí
+
+- regex: cpf_regex
+  examples: |
+    - \d{3}\.?\d{3}\.?\d{3}-?\d{2}
+
+- regex: data_regex
+  examples: |
+    - (0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/\d{4}
+
+- regex: hora_regex
+  examples: |
+    - ([01]?[0-9]|2[0-3]):[0-5][0-9]
+    - ([01]?[0-9]|2[0-3])h

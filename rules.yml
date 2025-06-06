@@ -1,0 +1,200 @@
+version: "3.1"
+
+rules:
+
+- rule: Reagir a lembrete de inatividade
+  steps:
+  - intent: EXTERNAL_inactivity_reminder
+  - action: action_react_to_inactivity_reminder
+  - action: action_listen
+
+- rule: Responder a Agradecimento
+  steps:
+  - intent: agradecimento
+  - action: utter_de_nada
+  - action: action_forget_reminders 
+  - action: action_listen
+
+- rule: Reiniciar conversa a pedido do usuário
+  steps:
+  - intent: restart
+  - action: action_restart
+  - action: utter_saudacao
+  - action: action_schedule_inactivity_reminder
+  - action: action_listen
+
+- rule: Fallback NLU (Baixa confiança na intenção)
+  steps:
+  - intent: nlu_fallback
+  - action: utter_default
+  - action: action_listen
+
+- rule: Responder pergunta sobre preço de aula
+  condition:
+    - active_loop: null
+  steps:
+  - intent: ask_preco_aula
+  - action: action_informar_preco_aula
+  - action: action_listen
+
+- rule: Responder pergunta sobre preço de consultoria
+  condition:
+    - active_loop: null
+  steps:
+  - intent: ask_preco_consultoria
+  - action: utter_informar_preco_consultoria
+  - action: action_listen
+
+- rule: Iniciar agendamento de consultoria (se serviço ainda não definido)
+  condition:
+  - active_loop: null
+  - slot_was_set:
+      - servico_escolhido: null
+  steps:
+  - intent: agendamento_consultoria
+  - action: utter_agendamento_consultoria
+  - action: action_set_consultoria_details
+  - action: action_schedule_inactivity_reminder
+  - action: action_listen
+
+- rule: Iniciar agendamento de aula (se modo não definido)
+  condition:
+    - active_loop: null
+    - slot_was_set:
+        - modo_agendamento: null
+  steps:
+    - intent: agendamento_aula
+    - action: action_start_aula_agendamento
+    - action: action_listen
+
+- rule: Usuário informa instrumento para compra após pergunta genérica
+  condition:
+    - active_loop: null
+  steps:
+  - intent: compra_instrumento
+  - action: action_handle_compra_instrumento
+  - action: action_listen
+
+- rule: Ativar formulário após modo de agendamento
+  steps:
+  - intent: agendamento_modo
+  - action: action_forget_reminders
+  - action: personal_data_form
+  - active_loop: personal_data_form
+
+- rule: Concluir dados pessoais e confirmar
+  condition:
+    - active_loop: personal_data_form 
+    - slot_was_set: 
+        - requested_slot: null 
+  steps:
+  - action: personal_data_form 
+  - active_loop: null 
+  - action: action_extract_and_confirm_data
+  - action: action_schedule_inactivity_reminder 
+  - action: action_listen 
+
+- rule: Negacao apos confirmacao de dados pessoais (Correcao)
+  condition:
+    - active_loop: null 
+    - slot_was_set:
+        - dados_pessoais_confirmados_pendente: true 
+  steps:
+  - intent: negacao 
+  - action: action_reset_personal_data_slots
+
+- rule: Afirmacao apos confirmacao de dados pessoais (Prosseguir para pedir dia)
+  condition:
+    - active_loop: null 
+    - slot_was_set:
+        - dados_pessoais_confirmados_pendente: true
+  steps:
+  - intent: afirmacao 
+  - action: action_forget_reminders_and_ask_dia
+  - action: action_listen                       
+
+- rule: Usuário fornece dia do agendamento (APÓS DADOS CONFIRMADOS)
+  condition:
+    - active_loop: null
+    - slot_was_set: 
+        - nome 
+        - modo_agendamento 
+    - slot_was_set: 
+        - dados_pessoais_confirmados_pendente: false
+  steps:
+  - intent: agendamento_dia
+  - action: action_process_agendamento_date 
+  - slot_was_set: 
+      - data_agendamento 
+  - action: utter_ask_hora_agendamento 
+  - action: action_schedule_inactivity_reminder 
+  - action: action_listen 
+
+- rule: Usuário fornece hora do agendamento, bot confirma tudo
+  condition:
+    - active_loop: null 
+    - slot_was_set:
+        - data_agendamento 
+  steps:
+  - intent: fornecer_hora_agendamento
+  - action: action_confirm_agendamento_final # Alterado para a nova ação customizada
+  - action: action_listen 
+
+- rule: Usuário fornece dia e hora juntos (intent agendamento_hora)
+  condition:
+    - active_loop: null 
+    - slot_was_set:
+        - nome 
+        - modo_agendamento 
+        - dados_pessoais_confirmados_pendente: false 
+  steps:
+  - intent: agendamento_hora 
+  - action: action_process_agendamento_date 
+  - slot_was_set: 
+      - hora_agendamento 
+  - action: action_confirm_agendamento_final # Alterado para a nova ação customizada
+  - action: action_listen 
+
+- rule: Responde a despedida (Fora de Forms)
+  condition:
+    - active_loop: null 
+  steps:
+    - intent: despedida 
+    - action: action_forget_reminders 
+    - action: utter_despedida 
+    - action: action_listen 
+
+- rule: Responde a pagamento (Fora de Forms)
+  condition:
+    - active_loop: null 
+  steps:
+    - intent: pagamento 
+    - action: action_forget_reminders 
+    - action: utter_pagamento 
+    - action: action_listen 
+
+- rule: Responde a pedido de comprar Instrumentos (Fora de Forms)
+  condition:
+    - active_loop: null 
+  steps:
+    - intent: compra_instrumento 
+    - action: action_handle_compra_instrumento
+    - action: action_listen 
+
+- rule: Responde a pedido de materiais (Fora de Forms)
+  condition:
+    - active_loop: null 
+  steps:
+    - intent: materiais 
+    - action: utter_materiais 
+    - action: action_forget_reminders 
+    - action: action_listen 
+
+- rule: Responde a listagem de Instrumentos (Fora de Forms)
+  condition:
+    - active_loop: null 
+  steps:
+    - intent: listagem_instrumentos 
+    - action: utter_listagem_instrumentos 
+    - action: action_forget_reminders 
+    - action: action_listen

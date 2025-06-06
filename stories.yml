@@ -1,0 +1,484 @@
+version: "3.1"
+
+stories:
+
+- story: Usuário pergunta preço da aula de ukulele e depois agenda
+  steps:
+  - user: "qual o valor da aula de ukulele?"
+    intent: ask_preco_aula
+    entities:
+      - instrumentos: "ukulele"
+  - action: action_informar_preco_aula
+  - slot_was_set: 
+      - instrumentos: "ukulele"
+  - action: action_listen
+  - user: "sim, gostaria de agendar"
+    intent: afirmacao
+  - action: action_start_aula_agendamento
+  - action: action_listen
+  - user: "online"
+    intent: agendamento_modo
+    entities:
+      - modo_agendamento: "online"
+  - action: action_forget_reminders
+  - slot_was_set:
+      - modo_agendamento: "online"
+  - action: personal_data_form
+  - active_loop: personal_data_form
+  - action: action_listen
+  - user: "Meu nome é Carlos Maia"
+    intent: fornecer_dados_pessoais
+    entities:
+      - nome: "Carlos Maia"
+  - slot_was_set:
+      - nome: "Carlos Maia"
+  - active_loop: personal_data_form
+  - action: action_listen
+  - user: "cpf 111.222.333-44"
+    intent: fornecer_dados_pessoais
+    entities:
+      - cpf: "111.222.333-44"
+  - slot_was_set:
+      - cpf: "11122233344"
+  - active_loop: personal_data_form
+  - action: action_listen
+  - user: "rg 12.345.678-9"
+    intent: fornecer_dados_pessoais
+    entities:
+      - rg: "12.345.678-9"
+  - slot_was_set:
+      - rg: "123456789"
+  - active_loop: personal_data_form
+  - action: action_listen
+  - user: "15/05/1998"
+    intent: fornecer_dados_pessoais
+    entities:
+      - date: "15/05/1998"
+  - slot_was_set:
+      - data_nascimento: "15/05/1998"
+  - action: personal_data_form
+  - active_loop: null
+  - action: action_extract_and_confirm_data
+  - action: action_schedule_inactivity_reminder
+  - action: action_listen
+  - user: "sim"
+    intent: afirmacao
+  - action: action_forget_reminders_and_ask_dia
+  - action: action_listen
+  - user: "próxima terça"
+    intent: agendamento_dia
+    entities:
+      - date: "próxima terça"
+  - action: action_process_agendamento_date
+  - slot_was_set:
+      - data_agendamento: "10/06"
+  - action: utter_ask_hora_agendamento
+  - action: action_schedule_inactivity_reminder
+  - action: action_listen
+  - user: "às 16h"
+    intent: fornecer_hora_agendamento
+    entities:
+      - time: "16h"
+  # Removida a linha '- action: action_forget_reminders'
+  - slot_was_set:
+      - hora_agendamento: "16h"
+  - action: action_confirm_agendamento_final # Alterado para a nova ação
+  - action: action_listen
+  - user: "vou pagar com pix"
+    intent: pagamento
+    entities:
+      - forma_pagamento: "pix"
+  - action: action_forget_reminders
+  - slot_was_set:
+      - forma_pagamento: "pix"
+  - action: utter_pagamento
+  - action: action_listen
+  - user: "obrigado, tchau"
+    intent: despedida
+  - action: action_forget_reminders
+  - action: utter_despedida
+  - action: action_listen
+
+- story: Usuário pergunta preço das aulas em geral e depois especifica instrumento
+  steps:
+  - user: "qual o preço das aulas?"
+    intent: ask_preco_aula
+  - action: action_informar_preco_aula
+  - action: action_listen
+  - user: "para violão"
+    intent: agendamento_aula
+    entities:
+      - instrumentos: "violão"
+  - slot_was_set:
+      - instrumentos: "violão"
+  - action: action_start_aula_agendamento
+  - action: action_listen
+
+- story: Usuário pergunta preço da consultoria e depois agenda
+  steps:
+  - user: "quanto custa a consultoria?"
+    intent: ask_preco_consultoria
+  - action: utter_informar_preco_consultoria
+  - action: action_listen
+  - user: "quero agendar"
+    intent: agendamento_consultoria
+  - action: utter_agendamento_consultoria
+  - action: action_set_consultoria_details
+  - slot_was_set:
+      - servico_escolhido: "Consultoria Musical"
+      - preco_servico: 120.0
+  - action: action_schedule_inactivity_reminder
+  - action: action_listen
+  - user: "presencial"
+    intent: agendamento_modo
+    entities:
+      - modo_agendamento: "presencial"
+  - action: action_forget_reminders
+  - slot_was_set:
+      - modo_agendamento: "presencial"
+  - action: personal_data_form
+  - active_loop: personal_data_form
+  - action: action_listen
+  - user: "Meu nome é Carlos Maia"
+    intent: fornecer_dados_pessoais
+    entities:
+      - nome: "Carlos Maia"
+  - slot_was_set:
+      - nome: "Carlos Maia"
+  - active_loop: personal_data_form
+  - action: action_listen
+  - user: "cpf 111.222.333-44"
+    intent: fornecer_dados_pessoais
+    entities:
+      - cpf: "111.222.333-44"
+  - slot_was_set:
+      - cpf: "11122233344"
+  - active_loop: personal_data_form
+  - action: action_listen
+  - user: "rg 12.345.678-9"
+    intent: fornecer_dados_pessoais
+    entities:
+      - rg: "12.345.678-9"
+  - slot_was_set:
+      - rg: "123456789"
+  - active_loop: personal_data_form
+  - action: action_listen
+  - user: "15/05/1998"
+    intent: fornecer_dados_pessoais
+    entities:
+      - date: "15/05/1998"
+  - slot_was_set:
+      - data_nascimento: "15/05/1998"
+  - action: personal_data_form
+  - active_loop: null
+  - action: action_extract_and_confirm_data
+  - action: action_schedule_inactivity_reminder
+  - action: action_listen
+  - user: "sim"
+    intent: afirmacao
+  - action: action_forget_reminders_and_ask_dia
+  - action: action_listen
+  - user: "próxima terça"
+    intent: agendamento_dia
+    entities:
+      - date: "próxima terça"
+  - action: action_process_agendamento_date
+  - slot_was_set:
+      - data_agendamento: "10/06"
+  - action: utter_ask_hora_agendamento
+  - action: action_schedule_inactivity_reminder
+  - action: action_listen
+  - user: "às 16h"
+    intent: fornecer_hora_agendamento
+    entities:
+      - time: "16h"
+  # Removida a linha '- action: action_forget_reminders'
+  - slot_was_set:
+      - hora_agendamento: "16h"
+  - action: action_confirm_agendamento_final # Alterado para a nova ação
+  - action: action_listen
+  - user: "obrigado, tchau"
+    intent: despedida
+  - action: action_forget_reminders
+  - action: utter_despedida
+  - action: action_listen
+
+
+- story: Agendamento Aula Online - Fluxo Completo Dia e Hora Separados
+  steps:
+  - user: "quero agendar uma aula de baixo"
+    intent: agendamento_aula
+    entities:
+      - instrumentos: "baixo"
+  - slot_was_set:
+      - instrumentos: "baixo"
+  - action: action_start_aula_agendamento
+  - action: action_listen
+  - user: "online"
+    intent: agendamento_modo
+    entities:
+      - modo_agendamento: "online"
+  - action: action_forget_reminders
+  - slot_was_set:
+      - modo_agendamento: "online"
+  - action: personal_data_form
+  - active_loop: personal_data_form
+  - action: action_listen
+  - user: "Meu nome é Leon Martins"
+    intent: fornecer_dados_pessoais
+    entities:
+      - nome: "Leon Martins"
+  - slot_was_set:
+      - nome: "Leon Martins"
+  - active_loop: personal_data_form
+  - action: action_listen
+  - user: "19896748446"
+    intent: fornecer_dados_pessoais
+    entities:
+      - cpf: "19896748446"
+  - slot_was_set:
+      - cpf: "19896748446"
+  - active_loop: personal_data_form
+  - action: action_listen
+  - user: "152569583"
+    intent: fornecer_dados_pessoais
+    entities:
+      - rg: "152569583"
+  - slot_was_set:
+      - rg: "152569583"
+  - active_loop: personal_data_form
+  - action: action_listen
+  - user: "15/05/1998"
+    intent: fornecer_dados_pessoais
+    entities:
+      - date: "15/05/1998"
+  - slot_was_set:
+      - data_nascimento: "15/05/1998"
+  - action: personal_data_form
+  - active_loop: null
+  - action: action_extract_and_confirm_data
+  - action: action_schedule_inactivity_reminder
+  - action: action_listen
+  - user: "sim"
+    intent: afirmacao
+  - action: action_forget_reminders_and_ask_dia
+  - action: action_listen
+  - user: "obrigado, tchau"
+    intent: despedida
+  - action: action_forget_reminders
+  - action: utter_despedida
+  - action: action_listen
+
+- story: Agendamento Consultoria Presencial - Fluxo Completo
+  steps:
+  - user: "quero uma consultoria"
+    intent: agendamento_consultoria
+  - action: utter_agendamento_consultoria
+  - action: action_set_consultoria_details
+  - slot_was_set:
+      - servico_escolhido: "Consultoria Musical"
+      - preco_servico: 120.0
+  - action: action_schedule_inactivity_reminder
+  - action: action_listen
+  - user: "presencial"
+    intent: agendamento_modo
+    entities:
+      - modo_agendamento: "presencial"
+  - action: action_forget_reminders
+  - slot_was_set:
+      - modo_agendamento: "presencial"
+  - action: personal_data_form
+  - active_loop: personal_data_form
+  - action: action_listen
+  - user: "Maria Aparecida Souza, cpf 999.888.777-66, rg 11.222.333-X, nasc 01/01/1990"
+    intent: fornecer_dados_pessoais
+    entities:
+      - nome: "Maria Aparecida Souza"
+      - cpf: "999.888.777-66"
+      - rg: "11.222.333-X"
+      - date: "01/01/1990"
+  - slot_was_set:
+      - nome: "Maria Aparecida Souza"
+      - cpf: "99988877766"
+      - rg: "11222333X"
+      - data_nascimento: "01/01/1990"
+  - action: personal_data_form
+  - active_loop: null
+  - action: action_extract_and_confirm_data
+  - action: action_schedule_inactivity_reminder
+  - action: action_listen
+  - user: "correto"
+    intent: afirmacao
+  - action: action_forget_reminders_and_ask_dia
+  - action: action_listen
+  - user: "até mais"
+    intent: despedida
+  - action: action_forget_reminders
+  - action: utter_despedida
+  - action: action_listen
+
+- story: Usuario informa instrumento para aula apos pergunta inicial
+  steps:
+  - user: "gostaria de agendar uma aula"
+    intent: agendamento_aula
+  - action: action_start_aula_agendamento
+  - action: action_listen
+  - user: "[violão](instrumentos)"
+    intent: agendamento_aula
+    entities:
+      - instrumentos: "violão"
+  - slot_was_set:
+      - instrumentos: "violão"
+  - action: action_start_aula_agendamento
+  - action: action_listen
+
+- story: Negação na confirmação de dados e correção
+  steps:
+  - user: "quero aula de guitarra"
+    intent: agendamento_aula
+    entities:
+      - instrumentos: "guitarra"
+  - slot_was_set:
+      - instrumentos: "guitarra"
+  - action: action_start_aula_agendamento
+  - action: action_listen
+  - user: "presencial"
+    intent: agendamento_modo
+    entities:
+      - modo_agendamento: "presencial"
+  - action: action_forget_reminders
+  - slot_was_set:
+      - modo_agendamento: "presencial"
+  - action: personal_data_form
+  - active_loop: personal_data_form
+  - action: action_listen
+  - user: "João Pereira, cpf 123.123.123-12, rg 98.765.432-1, nasc 10/10/2000"
+    intent: fornecer_dados_pessoais
+  - slot_was_set:
+      - nome: "João Pereira"
+      - cpf: "12312312312"
+      - rg: "987654321"
+      - data_nascimento: "10/10/2000"
+  - action: personal_data_form
+  - active_loop: null
+  - action: action_extract_and_confirm_data
+  - action: action_schedule_inactivity_reminder
+  - action: action_listen
+  - user: "não, meu nome está errado"
+    intent: negacao
+  - action: action_forget_reminders
+  - action: utter_ask_dados_pessoais
+  - action: personal_data_form
+  - active_loop: personal_data_form
+  - action: action_listen
+  - user: "O nome correto é João Silva. O resto está certo."
+    intent: fornecer_dados_pessoais
+    entities:
+      - nome: "João Silva"
+      - cpf: "123.123.123-12"
+      - rg: "98.765.432-1"
+      - date: "10/10/2000"
+  - slot_was_set:
+      - nome: "João Silva"
+      - cpf: "12312312312"
+      - rg: "987654321"
+      - data_nascimento: "10/10/2000"
+  - action: personal_data_form
+  - active_loop: null
+  - action: action_extract_and_confirm_data
+  - action: action_schedule_inactivity_reminder
+  - action: action_listen
+  - user: "agora sim"
+    intent: afirmacao
+  - action: action_forget_reminders_and_ask_dia
+  - action: action_listen
+
+- story: Interrupção com despedida durante o formulário
+  steps:
+  - user: "quero aula de piano"
+    intent: agendamento_aula
+    entities:
+      - instrumentos: "piano"
+  - slot_was_set:
+      - instrumentos: "piano"
+  - action: action_start_aula_agendamento
+  - action: action_listen
+  - user: "online"
+    intent: agendamento_modo
+    entities:
+      - modo_agendamento: "online"
+  - action: action_forget_reminders
+  - slot_was_set:
+      - modo_agendamento: "online"
+  - action: personal_data_form
+  - active_loop: personal_data_form
+  - action: action_listen
+  - user: "ah, deixa pra lá, tchau"
+    intent: despedida
+  - action: action_forget_reminders
+  - action: utter_despedida
+  - action: action_deactivate_form
+  - active_loop: null
+  - action: action_listen
+
+# --- HISTÓRIAS DE FLUXOS INDEPENDENTES ---
+
+- story: Compra de Instrumento Simples
+  steps:
+  - user: "oi"
+    intent: saudacao
+  - action: utter_saudacao
+  - action: action_schedule_inactivity_reminder
+  - action: action_listen
+  - user: "Quero comprar um violão"
+    intent: compra_instrumento
+    entities:
+      - instrumentos: "violão"
+  - action: action_handle_compra_instrumento
+  - action: action_listen
+  - user: "obrigado, tchau"
+    intent: despedida
+  - action: action_forget_reminders
+  - action: utter_despedida
+  - action: action_listen
+
+- story: Informação sobre Materiais Simples
+  steps:
+  - user: "olá"
+    intent: saudacao
+  - action: utter_saudacao
+  - action: action_schedule_inactivity_reminder
+  - action: action_listen
+  - user: "Quais materiais vocês oferecem??"
+    intent: materiais
+  - action: utter_materiais
+  - action: action_forget_reminders
+  - action: action_listen
+  - user: "valeu, tchau"
+    intent: despedida
+  - action: action_forget_reminders
+  - action: utter_despedida
+  - action: action_listen
+
+- story: Usuário agradece
+  steps:
+  - user: "Muito obrigado!"
+    intent: agradecimento
+  - action: utter_de_nada
+  - action: action_forget_reminders
+  - action: action_listen
+
+- story: Reinício da Conversa - Pós Regra
+  steps:
+  - intent: restart
+  - action: action_restart
+  - action: utter_saudacao
+  - action: action_schedule_inactivity_reminder
+  - action: action_listen
+
+- story: Fallback NLU
+  steps:
+  - user: "asdasdasd"
+    intent: nlu_fallback
+  - action: utter_default
+  - action: action_listen

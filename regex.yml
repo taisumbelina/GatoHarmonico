@@ -1,0 +1,7 @@
+version: "3.1"
+
+regex:
+  - name: cpf
+    pattern: '^\d{3}\.?\d{3}\.?\d{3}-?\d{2}$' # Mais flexível para CPF (permite com/sem pontos e traço)
+  - name: rg
+    pattern: '^\d{1,2}\.?\d{3}\.?\d{3}-?[\dX]$' # Mais flexível para RG (permite 1 ou 2 dígitos iniciais, com/sem pontos e traço, e 'X' no final)
